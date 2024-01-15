@@ -14,4 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get("/", [JobController::class,"index"])->name("index");
+
 Route::resource('jobs', JobController::class)->only(['index']);

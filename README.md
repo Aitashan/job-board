@@ -219,3 +219,37 @@ Note this can also be done by omiting class assignment and just using class meth
 ```
 
 This should be done only once in the reusable template. Afterwards the clases can be added normally on the respective components.
+
+## Styling and populating the Job index page.
+
+1. To add things like job salary we can add a div with a flex class inside the x-card tag on the index blade file.
+
+2. We can distinguish between the heading and other components by giving the title by setting its weight to medium and size to large.
+
+3. Moreover we can give the salary container to have a more lighter shade of gray. We can also use the number_format() method around the salary and the currency symbol prefixed behind the php tag {{}}.
+
+4. Now when we come to display the description we have set the paragraphs data-type which when displayed thorugh normal php notation does not show new lines and if we use a method like nl2br() which converts new lines to <br> line break tag. It does now get translated properly and insted of new lines <br> is seen written in text.
+
+5. So to counter this problem we will use the {!! $code !!} instead of {{ $code }} to properly interpolate the tags.
+
+```
+{!! nl2br(e($job->description)) !!}
+```
+
+To be more rohbust and on the safe side a escaping method is also wraped around the data.
+
+6. We can then give the description a smaller text size and lighter grey shade by using text-sm text-slate-500 class.
+
+7. Finally we all 2 more flex containers for the remaning fields and style them accordingly. Here on the left Company Name and location is displayed. On the right in a more smaller text size expereince and category are displayed.
+
+Note: To make the first letter capital Str::ucfirst() can be wraped around the desired data param. For Vertical alignment items-center class is used.
+
+8. To reduce repetition we can make more components like a tag component to use for our category and experince fields.
+
+Note: Dont forget to use the {{$attributes->class([' classes here '])}} for the template. Then simply wrap each field with its own <x-tag>. Eventhough attributes->class method was not necssary here but in future we wanted to add more classes then it will surely come in handy.
+
+9. Lastly we can make a redirection in routes for the main page.
+
+```
+Route::get("/", [JobController::class,"index"])->name("index");
+```
