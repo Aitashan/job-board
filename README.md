@@ -186,4 +186,36 @@ return view('jobs.index', ['jobs' => Job::all()]);
 </x-layout>
 ```
 
-##
+## Adding a reusable card component.
+
+1. we addded margins and set max width using tailwind classes.
+
+2. we can also change background color simlarly something like "bg-slate-200" or text color to text-slate-700.
+
+3. Next we will make some changes in the index compoment, we can give it a card design by adding following class properties:
+
+```
+class="rounded-md border border-slate-300 bg-white p-4 shadow-sm mb-4"
+```
+
+4. To reuse this card we can extract into a component by making another component via terminal.
+
+```
+php artisan make:component Card --view
+```
+
+Next we can just copy past the div into the new component and change parameter to $slot so we can pass data to it later.
+
+5. The card componet can then be used again using <x-card> tag and if we want to pass some tailwind to it then it can be done using $attributes->merge() method on the template <div>
+
+```
+<div {{$attributes->merge(['class' => 'mb-4'])}}>
+```
+
+Note this can also be done by omiting class assignment and just using class method instead of merge. This gives us the oppertunity to use the classes as key and assign a value to them and class will be applied if the value is true.
+
+```
+<div {{$attributes->class(['rounded-md border border-slate-300', 'bg-white text-green-300' => $good, 'text-red' => $error])}}>
+```
+
+This should be done only once in the reusable template. Afterwards the clases can be added normally on the respective components.
