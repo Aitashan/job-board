@@ -249,7 +249,56 @@ Note: To make the first letter capital Str::ucfirst() can be wraped around the d
 Note: Dont forget to use the {{$attributes->class([' classes here '])}} for the template. Then simply wrap each field with its own <x-tag>. Eventhough attributes->class method was not necssary here but in future we wanted to add more classes then it will surely come in handy.
 
 9. Lastly we can make a redirection in routes for the main page.
+   this goes in in the web php
 
 ```
-Route::get("/", [JobController::class,"index"])->name("index");
+Route::get('', [JobController::class,'redirect'])
 ```
+
+whereas this function can be added in JobConroller.
+
+```
+    public function redirect()
+    {
+        return redirect()->route('jobs.index');
+    }
+```
+
+## Adding another page for Job details.
+
+1. For displaying such page we first need to re-enable the show route in web php. We can do that by just adding another value in the only method array.
+
+Note: You can confirm the route by using the php artisan route:list command in the terminal. The default routes are named automatically.
+
+2. Make a show blade template for the show route.
+
+3. Next we will modify the show action/ fn in the JobController by using route model binding
+
+```
+public function show(Job $job)
+{
+    return view('job.show', compact('job'))
+}
+```
+
+Note: The compact method creates an array named 'job' using the $job variable.
+
+4. Next we will go into the show blade file to set up the basic desing using the layout and card component.
+
+5. Then we will make a link to the show page on the main index page. This can be done simply by adding a link below the description.
+
+```
+<a href={{route('jobs.show', $job)}}>Check Job</a> // just interpolating the result of route function
+```
+
+6. Aftwards we can simply style it as a button and extract all the styles into another component for resuability later.
+
+7. When making the LinkButton view component we can $href instead of the absolute route fn. Then in the index view we can simply pass a param thorugh the tag using <x-link-button :href="route()">. To pass classes we will simply use another set of {{}} and pass in the $attributes->class(['']) method.
+
+Note: we dont need php brackets when passing data thorugh the component variable as blade component is already expecting some php to be passed onto the variable. Just dont forget to use double quotes "".
+
+8. To refactor further we can make yet another component for displaying simple job data JobCard view component.
+
+9. In this way we can use the the <x-job-card :job="$job"> can be used on both index and show pages. The index page will also have the <x-link-button> nested inside. This way the index will display all the jobs and show will only display one job.
+
+Note: If the variable name is same as attribute name like :job="$job" then we can shorthand it with ony using :$job. If no other data is passes you can also self close the tag.
