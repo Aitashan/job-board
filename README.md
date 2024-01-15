@@ -302,3 +302,40 @@ Note: we dont need php brackets when passing data thorugh the component variable
 9. In this way we can use the the <x-job-card :job="$job"> can be used on both index and show pages. The index page will also have the <x-link-button> nested inside. This way the index will display all the jobs and show will only display one job.
 
 Note: If the variable name is same as attribute name like :job="$job" then we can shorthand it with ony using :$job. If no other data is passes you can also self close the tag.
+
+## Implementing Navigation.
+
+1. We will first test a basic nav deisgn on the show page then extract it later into a seprate component to be reused later.
+
+2. Using a flex class on the list elements we can get a basic design that shows our current location on the site.
+
+3. Next we make another component named Breadcrumbs to extract the navigations for reuse later this time we will need the class aswell.
+
+4. If we want to pass classes to the component later then we can simply use the $attributes->class(['']) methhod again but if there are no classes in the template then we can also emit class and shorthand it to just $attributes.
+
+5. To make this breadcrumbs universal and not just related to the job, we eed to pass an array variable on every page with links we need. Then using the foreach loop we can iterate over those links for every page differently. For instance the show page
+
+```
+<x-breadcrumbs :links="['Jobs' => route('jobs.index'), $job->title => '#']">
+```
+
+6. In the breadcrumbs template we will use the for loop like this
+
+```
+@foreach($links as $label => $link)
+    <li>&rArr;</li>
+    <li>
+        <a href="{{ $link }}">{{ $label }}</a>
+    </li>
+@endforeach
+```
+
+7. Next in the breadcrumbs class we will have to pass the custom attributes in the construct fn. This due to the fact that we can not pass an array through the {{$attributes}} and we were trying to pass :links[..] which resulted in an error.
+
+```
+_construct(public array $links)
+```
+
+Note: As all the attributes that gets passed through the $attributes gets added to the attribute bag which only accepts strings so in order to tackle this we will add the said array manually to the breadcrumbs class.
+
+8. We can simlarly now add the breadcrumbs to any page just by configuring the array of links as in case for index we wont be needing the single job link so we will omit that.
