@@ -35,7 +35,7 @@ Note: Must take care of naming convention how J and C is capital. --resource fla
 6. Adding columns to the migration table. These lines are added to the Schema funciton.
 
 ```
-$table->string('name');
+$table->string('title');
 $table->text('description');
 $table->unsignedInteger('salary');
 $table->string('location');
@@ -51,4 +51,27 @@ public static array $experience = ['entry','intermediate','senior'];
 
 Lastly an enum is a data type that enables as to have a set of constants for a variable.
 
-7.
+7. Configure factory so we can have some fake data for testing.
+
+```
+            'title' => fake()->jobTitle,
+            'description' => fake()->paragraphs,
+            'salary' => fake()->numberBetween(5_000, 150_000),
+            'location' => fake()->city,
+            'category' => fake()->randomElement(Job::$category),
+            'experience' => fake()->randomElement(Job::$experience)
+```
+
+Note: Dont forget to call the factory into the seeder before seeding the database. Take note of importing namesapces too or you can use full path instead.
+
+```
+Job::factory(100)->create(); // This will create 100 fake jobs
+```
+
+Finally to seed the db run the following command.
+
+```
+php artisan migrate:refresh --seed
+```
+
+Note: The migrate:refresh will overwirte all the old migrations dropping them down then populating the db with new ones.
