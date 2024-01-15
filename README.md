@@ -1,5 +1,7 @@
 # Job-Board-App -- A rough codeAlong guide.
 
+## Creating the project and seeding it with fake data for the first model.
+
 1. Creating project using code below and then opening the folder in vscode.
 
 ```
@@ -76,4 +78,14 @@ php artisan migrate:refresh --seed
 
 Note: The migrate:refresh will overwirte all the old migrations dropping them down then populating the db with new ones.
 
-8.
+## Installing debugbar
+
+1. This development tool displays additional info at the bottom of our laravel page and can simply be added using the following comamnd
+
+```
+composer require barryvdh/laravel-debugbar --dev
+```
+
+Note: --dev flag ensures its existence in the developemnt phase so when we go on to deploy our app it wont be there.
+
+2. Run the server next and see if it looks fine.
