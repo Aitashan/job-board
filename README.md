@@ -78,7 +78,7 @@ php artisan migrate:refresh --seed
 
 Note: The migrate:refresh will overwirte all the old migrations dropping them down then populating the db with new ones.
 
-## Installing debugbar
+## Installing debug-bar
 
 1. This development tool displays additional info at the bottom of our laravel page and can simply be added using the following comamnd
 
@@ -89,3 +89,52 @@ composer require barryvdh/laravel-debugbar --dev
 Note: --dev flag ensures its existence in the developemnt phase so when we go on to deploy our app it wont be there.
 
 2. Run the server next and see if it looks fine.
+
+## Installing Tailwind CSS for Laravel.
+
+1. The most current installations can be found in the Tailwind docs. Here i used the following commands to intall it using Vite.
+
+```
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
+
+Note: make sure u have node installed. You can check by typing "node -v" in the terminal excluding quotes.
+
+2. Next add this content into your tailwind.config.js file.
+
+```
+content: [
+    "./resources/**/*.blade.php",
+    "./resources/**/*.js",
+    "./resources/**/*.vue",
+  ],
+```
+
+Note: This basically add all the pathing to your template files. Taolwind will only include utility classes that were used, when saving the final package.
+
+3. Next we need to add some tailwind directives to our app.css file in the resources folder.
+
+```
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+Note: Dont worry about the errors just close the CSS file after pasting them in.
+
+4. Finaly run this command in the terminal to compile all the assets
+
+```
+npm run dev
+```
+
+Note: dev is just a script which runs vite for now.
+
+5. Finally add a vite directive to the head of html app layout.
+
+```
+@vite('resources/css/app.css')
+```
+
+Now tailwind can be used and the npm dev script runing in the backgroud refreshes the pages automatically.
