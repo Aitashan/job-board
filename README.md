@@ -138,3 +138,52 @@ Note: dev is just a script which runs vite for now.
 ```
 
 Now tailwind can be used and the npm dev script runing in the backgroud refreshes the pages automatically.
+
+## Making layouts using components.
+
+1. To add a layout we will simply make a component with a --view flag as we dont need the corresponding php file for now.
+
+```
+php artisan make:component Layout --view
+```
+
+2. We will define a slot in our layout.
+
+```
+<body>
+    {{$slot}}
+</body>
+```
+
+3. Next we will add routes for the resource controller in our web.php file
+   Route::resource('route_name', Controller::class)->only(['index']);
+   only command limits the routes generated.
+
+```
+Route::resource('jobs', JobController::class);
+```
+
+dont forget to import the namespace, then check in the terminal using
+
+```
+php artisan route:list
+```
+
+4. Next we will make a job folder in views and make index.blade.php file for the genrated route.
+
+5. Then we will define some actions in our exsting controllers. As we are using only index for now.
+   we will add the following logic to the index function to display all jobs on the page.
+
+```
+return view('jobs.index', ['jobs' => Job::all()]);
+```
+
+6. Finaly to use the layout we can simply use the x-layout tag and use a foreach loop to display all the jobs.
+
+```
+<x-layout>
+    for loop to display jobs
+</x-layout>
+```
+
+##
