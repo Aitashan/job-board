@@ -55,7 +55,7 @@ Lastly an enum is a data type that enables as to have a set of constants for a v
 
 ```
             'title' => fake()->jobTitle,
-            'description' => fake()->paragraphs,
+            'description' => fake()->paragraphs(3, true),
             'salary' => fake()->numberBetween(5_000, 150_000),
             'location' => fake()->city,
             'category' => fake()->randomElement(Job::$category),
@@ -75,3 +75,5 @@ php artisan migrate:refresh --seed
 ```
 
 Note: The migrate:refresh will overwirte all the old migrations dropping them down then populating the db with new ones.
+
+8.
