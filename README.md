@@ -445,10 +445,48 @@ $jobs->when(request('search'), function ($query)
 </label>
 ```
 
-3. Then another when query is added to the index action for experience. To retain the checked button we will use the @checked directive in eveery input tag.
+3. Then another when query is added to the index action for experience. To retain the checked button we will use the @checked directive in every input tag.
 
 ```
 @checked(!request('experience'))
 
 @checked(request('experience') === 'entry')
 ```
+
+4. Next we will extract this chunk of code into a seperate RadioGroup component and assign some properties through the construct function on the class.
+
+```
+public string $name,
+public array $options
+```
+
+5. Then we will make the template as follows.
+
+```
+<div>
+    <label for="{{'b-all-' . $name}}" class="mb-1 flex items-center">
+        <input id="{{'b-all-' . $name}}" type="radio" name="{{ $name }}" value="" @checked(!request($name)) />
+        <span class="ml-2">All</span>
+    </label>
+    @foreach ($options as $bn => $option)
+        <label for="{{ 'b-' . $bn . $name }}" class="mb-1 flex items-center">
+            <input id="{{ 'b-' . $bn . $name }}" type="radio" name="{{ $name }}" value="{{ $option }}"
+                @checked(request($name) === $option) />
+            <span class="ml-2">{{ Str::ucfirst($option) }}</span>
+        </label>
+    @endforeach
+</div>
+
+```
+
+Note: $bn(index) helps us in making a unique id for each button.
+
+6. For adding this template to index we will just view template along with name and :options
+
+```
+<x-radio-group name="category" :options="\App\Models\Job::$category" />
+```
+
+7. Now we can just repeat the same line for category and a when/where method respectively in the controller.
+
+Note: When is used to deal with input requests if it is not null the function containg where conditional will run.
