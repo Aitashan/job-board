@@ -431,3 +431,24 @@ $jobs->when(request('search'), function ($query)
             $query->where('salary','<=', request('max_salary'));
         });
 ```
+
+## Adding RadioButtons.
+
+1. Now to add radioButtons for experience and categories, we will start by adding a headings div.
+
+2. Next we will duplicate a combination of label and input to display radio buttons. Later on we will extract it into a seperate component.
+
+```
+<label for="experience" class="mb-1 flex items-center">
+    <input type="radio" name="experience" value="" />
+    <span class="ml-2">All</span>
+</label>
+```
+
+3. Then another when query is added to the index action for experience. To retain the checked button we will use the @checked directive in eveery input tag.
+
+```
+@checked(!request('experience'))
+
+@checked(request('experience') === 'entry')
+```
