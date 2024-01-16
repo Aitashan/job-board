@@ -383,3 +383,51 @@ Note this will set the basic attributes so we can re-use this custom input later
 7. Then we will add this custom component to the index layout and style it accordingly. Here we will not use : for variables as the data we are trying to pass through is just string there is no logic involved.
 
 8. Similary we can modify the textInput for min and max salary by defining a flex container.
+
+## Connecting the backend to our filter inputs.
+
+1. Made a slight change in the layout a short description is shown on the index while full description of the job will be available on the show page.
+
+2. To get the filtering to work we first need to wrap the contents of the <x-card> into a <form> with a get method and a action that submits to the jobs.index page.
+
+Note: The GET method basically adds the form submision to the URL.
+
+3. Next we will add a button at the end of the form and style it accordingly.
+
+4. Then we will go to the index action in the JobController and specify the parameters for our query.
+
+```
+$jobs = Job::query();
+
+// Conditional filters will now be as followed.
+
+$jobs->when(request('search'), function ($query)
+{
+    $query->where('title', 'like', '%' . request('search') . '%')
+});
+
+return view ('jobs.index', ['jobs' => $jobs->get()]);
+```
+
+Note: The % sign make sure that when searching there could be text behind or after it.
+
+5. To make the search inputs retain the searched values we just need to add the current request to the value parameter in the index page. For example the for title we can add value="{{request('search')}}"
+
+6. Next we will add additonal when methods for the min/max salary in the JobController. Now as the and operator gets presedence over or we might get unexpected results. So in order to be able to search both by title and description, we will encapsulate the name queries into an where method.
+
+```
+$jobs->when(request('search'), function ($query)
+        {
+            $query->where(function ($query)
+            {
+                $query->where('title','LIKE','%'. request('search') .'%')
+                ->orWhere('description','LIKE','%'. request('search') .'%');
+            });
+        })->when(request('min_salary'), function ($query)
+        {
+            $query->where('salary','>=', request('min_salary'));
+        })->when(request('min_salary'), function ($query)
+        {
+            $query->where('salary','<=', request('max_salary'));
+        });
+```
