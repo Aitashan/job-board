@@ -339,3 +339,47 @@ _construct(public array $links)
 Note: As all the attributes that gets passed through the $attributes gets added to the attribute bag which only accepts strings so in order to tackle this we will add the said array manually to the breadcrumbs class.
 
 8. We can simlarly now add the breadcrumbs to any page just by configuring the array of links as in case for index we wont be needing the single job link so we will omit that.
+
+## Implementing custom textBoxes for filters.
+
+1. First we will need to install a tailwind plugin for styling the forms.
+
+```
+npm install -D @tailwindcss/forms
+```
+
+Note: we will need to stop the run dev for awhile while we install and configure the plugin.
+
+2. To configure we just need to add this line to the plugins array. Afterwards we just restart the dev again.
+
+```
+require("@tailwindcss/forms")
+```
+
+3. Next we will add a seperate card on top for filtering our jobs. This is done using a <div> inside the <x-card> with a grid class.
+
+4. Then we will make a custom TextInput component with both views and class as we will be defining some attributes this time.
+
+5. Inside the construct fn of the class we will define some properties as follows.
+
+```
+    public function __construct(
+        public ?string $value = null,
+        public ?string $name = null,
+        public ?string $placeholder = null,
+    )
+```
+
+Note: The values are intialized as null and the ? represents that they are nullable i.e they can be left empty.
+
+6. Next we will jump into the blade view of the inputtext and create input.
+
+```
+<input type="text" placeholder="{{$placeholder}}" name="{{$name}}" value="{{$value}}" id="{{$name}}">
+```
+
+Note this will set the basic attributes so we can re-use this custom input later on other pages aswell. Id will come in handy later when we start using javascript.
+
+7. Then we will add this custom component to the index layout and style it accordingly. Here we will not use : for variables as the data we are trying to pass through is just string there is no logic involved.
+
+8. Similary we can modify the textInput for min and max salary by defining a flex container.
