@@ -479,6 +479,12 @@ public array $options
 
 ```
 
+Instead of using the laravel string method we can also do it in a purely php way by making a method in the component class which by using the values of an indexed array turns it into an associative array, then we can simply use the ucfirst flag with the array map method on the array lables. Eventhough this may seem redundant but it might come in handy later when we want to pass some complicated methods through a php :param.
+
+```
+array_combine(array_map('ucfirst', ['can', 'also', 'pass', '$var', 'here']), [same array again]);
+```
+
 Note: $bn(index) helps us in making a unique id for each button.
 
 6. For adding this template to index we will just view template along with name and :options
@@ -490,3 +496,51 @@ Note: $bn(index) helps us in making a unique id for each button.
 7. Now we can just repeat the same line for category and a when/where method respectively in the controller.
 
 Note: When is used to deal with input requests if it is not null the function containg where conditional will run.
+
+## Adding clear 'x' to the inputs.
+
+1. we can copy or download x or close icon svg from any site like heroicon e.t.c
+
+2. Next we will go into our textInput template wrap the whole input tag in a <div> add a button and then we will postion it in an absolute manner using some css.
+
+3. We will set the relative class on the encapsulating div so that the absolute positioning remains scoped to the input rather than the whole page.
+
+4. We can make the button flex conatainer taking full height then use items-center to align it vertically. Afterwards we can add some padding to the input so that the text and button does not overlap.
+
+5. After styling the icon and postion, we will now add a onclick handler on the button
+
+```
+onclick="document.getElementById('{{ $name }}').value=''"
+```
+
+6. To see the result i.e submit the form after clearing the input, we will add the formId var to the inputText class. We will also wrap the whole button with @if direcitve which only displays the button if the formId is present.
+
+7. Next to pass the id we will set an id to the form tag, then pass that same id to all the input compoments turning the camelCase var to snake-case that is here the formId will look like form-id.
+
+8. Lastly to submit the form we will pass in $formId with .submit method. So the whole inline js will look like this.
+
+```
+onclick="document.getElementById('{{ $name }}').value=''; document.getElementById('{{ $formId }}').submit();"
+```
+
+## Making some style changes, clickable categories/exp btns and installing alpine.
+
+1. To make gradient background we can visit the tailwind docs and look for gradient colorstops copy from one of the exisiting examples. Afterwards we can simply replace our existing bg in the app.layout and customize it accordingly.
+
+```
+bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%
+```
+
+2. Next we will turn the tags into clickable links which will add the query param respectively by wraping tag contents in an <a> tag. A basic route and its query parameter is passed along with it.
+
+```
+<a href="{{route('jobs.index', ['experience' => $jobs->experience])}}">
+```
+
+3. We will make a view component for the big filter button. We will use $attributes->class() method in this view as we also want extra style classes added externally like 'w-full'.
+
+4. Now we will go on to installing Alpine library for js. This can be done by simply using the npm command in the terminal. Afterwards we will add some config into the bootstrap.js file and then simply use the vite directive on with app.js file which is fundamently importing the bootstrap file.
+
+Note: all these commands and instructions are provided onto the alpinjs docs.
+
+5. Restart npm run dev.
