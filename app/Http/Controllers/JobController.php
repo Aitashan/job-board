@@ -29,7 +29,7 @@ class JobController extends Controller
         })->when(request('min_salary'), function ($query)
         {
             $query->where('salary','>=', request('min_salary'));
-        })->when(request('min_salary'), function ($query)
+        })->when(request('max_salary'), function ($query)
         {
             $query->where('salary','<=', request('max_salary'));
         })->when(request('experience'), function($query)

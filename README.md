@@ -544,3 +544,21 @@ bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-
 Note: all these commands and instructions are provided onto the alpinjs docs.
 
 5. Restart npm run dev.
+
+## Using Alpine instead of vanila Js.
+
+1. Now that we have Alpine instanlled and working we will replace the close button logic using this library in the text-input component. The main benefit of using frameworks like alpine is that we can seperate the data from logic while working in-line.
+
+2. By defining x-data directive to a html block we can transform it into an alpine component. Then we can simply add some other directives or events within the scope of the block to make interactive logic.
+
+3. So now first we will use the x-data directive on the x-card containing the from on index page. Then we will defeine a x-ref on the form instead of an id. Similarly we will change the formId param to fromRef in the textInput class. Finally we will also make this change on each seperate textInput.
+
+4. Now in the textInput component we will start by first getting rid the inline Js and the alpine @click directive and set two $refs one for input value and the other for submit.
+
+```
+@click="$refs['input-{{ $name }}'].value=''; $refs['{{ $formRef }}'].submit();"
+```
+
+We will aslo set an x-ref directive on the the input for the value part to work.
+
+## Defining local query scopes in the model.
