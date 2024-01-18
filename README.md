@@ -587,4 +587,29 @@ $filters = request()->only(['search', 'min_salary', 'max_salary', 'experience', 
 return view('job.index', ['jobs' => Job::filter($filters)->get()]);
 ```
 
-## Adding Auth
+## I deleted the project folder ??
+
+1. First we need to get the project folder from the git hub repository.
+
+```
+git init
+git remote add origin git@github.com:Aitashan/job-board.git
+git pull origin main
+```
+
+2. Next we will open the folder in vs code re-configure the .env file and run the following commands.
+
+```
+composer install
+php artisan key:generate
+npm run dev
+```
+
+Note: some dependencies might require you to do the following as well
+
+```
+composer update
+npm install
+```
+
+3. Finally test project using php artisan serve :D
