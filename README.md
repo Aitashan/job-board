@@ -562,3 +562,27 @@ Note: all these commands and instructions are provided onto the alpinjs docs.
 We will aslo set an x-ref directive on the the input for the value part to work.
 
 ## Defining local query scopes in the model.
+
+1. By defining a local query scope in the job model the query becomes future-proof and can be used again.
+
+2. Local query scopes are basically some parts of a query that can be defined in the model, the said method can then be called upon in the controllers to use or built upon further. The name of this public fucntion must always start with scopeFilters e.t.c
+
+3. We will build the scope as follows by copying the query from the controller.
+   Note: we will use both eloquent, query builder by using an alias and type-hint accordingly. This is not necesarry but it will allow the code editor to give us all the available methods.
+
+```
+public function scopeFilters(Builder | QueryBuilder $query, array $filters) : Buider | QueryBuilder
+{
+    return $query-> .....
+}
+```
+
+5. Next we will change all the request methods to the $filters array lables or insstead of accessing array everwhere we can just pass the varible thorugh funtion. we will also set undefined values to null.
+
+6. Finally we will remove the query from the conroller and then pass the scope method directly along with job model to get the query result. As method input we will aslo specify an $filters to the request input of that page. Furthermore we can also set the only method to limit any unwanted queries.
+
+```
+$filters = request()->only(['search', 'min_salary', 'max_salary', 'experience', 'category']);
+
+return view('job.index', ['jobs' => Job::filter($filters)->get()]);
+```
