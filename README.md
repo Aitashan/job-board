@@ -586,3 +586,5 @@ $filters = request()->only(['search', 'min_salary', 'max_salary', 'experience', 
 
 return view('job.index', ['jobs' => Job::filter($filters)->get()]);
 ```
+
+## Adding Auth
