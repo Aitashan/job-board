@@ -613,3 +613,37 @@ npm install
 ```
 
 3. Finally test project using php artisan serve :D
+
+Note: When using GitHub some files might get renamed or will not be pushed to the repo (.env.example) Investigate further.
+
+## Adding employer.
+
+1. Using the following command we can make the employer model, migration and factory all in one go
+
+```
+php artisan make:model Employer -mf
+```
+
+2. Next in the migrations file we will add a string company_name and then add a foreignkey for the users table that defines that each employer is basically is user owning that company.
+
+3. We will also define the foreingid for the jobs table where each job is set by the employer. This foreignid will also have drop funtion in the same migration.
+
+4. Now as for the model relationships we all add a jobs function to the employer model having the HasMany relation and a employer function on the job model having belongsTo relation.
+
+```
+public function jobs(): HasMany {
+    $this->hasMany(Job::class);
+}
+
+publick function employer(): BelongsTo {
+    $this->belongsTo(Employer::class);
+}
+```
+
+5. Similarly a user fn on the employer model having belongsTo relation and a employer fn on the user model having hasOne relation will be set. HasOne is used because not all users will be employers but an employer must be a user.
+
+6. Now the problem is we have a bunch of jobs with no employers and that is a paradox ... so to handle this we will wipe the database and run all the migrations again. Note: Never do this on the production / delployed server. we can only do this here because we are in the development phase.
+
+```
+php artisan db:wipe && php artisan migrate
+```

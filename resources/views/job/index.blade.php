@@ -2,6 +2,7 @@
     <x-breadcrumbs class="mb-4" :links="['Jobs' => route('jobs.index')]" />
 
     <x-card class="mb-4 text-sm" x-data="">
+        <div>{{ request()->getClientIp() }}</div>
         <form x-ref="h-filter" action="{{ route('jobs.index') }}" method="GET">
             <div class="mb-4 grid grid-cols-2 gap-4">
                 <div>
