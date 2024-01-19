@@ -647,3 +647,39 @@ publick function employer(): BelongsTo {
 ```
 php artisan db:wipe && php artisan migrate
 ```
+
+## Setting up the employer factory and re-seeding the db.
+
+1. Configure the employer factory by using the fake methods.
+
+```
+'company_name' => fake()->company
+```
+
+2. Next we will configure the seeder to acomodate the different data structures.
+
+```
+User::factory(300)->create();
+
+        $users = User::all()->shuffle();
+
+        for($i = 0; $i < 20; $i++) {
+            Employer::factory()->create([
+                'user_id' => $users->pop()->id
+            ]);
+        }
+
+        $employers = Employer::all()->shuffle();
+
+        for ($i = 0; $i < 100; $i++) {
+            Job::factory()->create([
+                'employer_id' => $employers->random()->id
+            ]);
+        }
+```
+
+3. Lastly we wil refresh the db and seed using
+
+```
+php aritsan migrate:refresh --seed
+```
